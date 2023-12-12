@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/imask"></script>
+    <title>Trabalho SI</title>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="./assets/logo.png" alt="Logo da empresa">
+        </div>
+        <h1>Tudo <span style="color: rgb(4, 180, 250);">sob</span>re controle</h1>
+        <button class="botao_carrinho" onclick="exibirCarrinho()">Carrinho</button>
+    </header>
+
+    <!-- todos produtos estão aqui -->
+    <nav id=container>
+
+        <div id="produto1" class="produto" data-nome="Controle Playstation 5" data-preco="199.00">
+            <img src="./assets/controle.png" alt="Controle de Playstation 5 (Cor Preta)">
+            <h3>Controle<br> Playstation 5</h3>
+            <p>R$ 199,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto1')">Comprar</button>
+        </div>
+
+        <div id="produto2" class="produto" data-nome="Controle Playstation 3" data-preco="1999.00">
+            <img src="./assets/controle_ps3ouro.png" alt="Controle de Playstation 3 (Ouro 24K)">
+            <h3>Controle<br> Playstation 3</h3>
+            <p>R$ 1999,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto2')">Comprar</button>
+        </div>
+
+        <div id="produto3" class="produto" data-nome="Controle Playstation 4" data-preco="199.00">
+            <img src="./assets/controle_ps4.png" alt="Controle de Playstation 4 (Cor Preta)">
+            <h3>Controle<br> Playstation 4</h3>
+            <p>R$ 199,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto3')">Comprar</button>
+        </div>
+
+        <div id="produto4" class="produto" data-nome="Controle Xbox 360" data-preco="130.00">
+            <img src="./assets/controle_360.png" alt="Controle de Xbox 360 (Cor Preta)">
+            <h3>Controle<br> Xbox 360</h3>
+            <p>R$ 130,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto4')">Comprar</button>
+        </div>
+
+        <div id="produto5" class="produto" data-nome="Controle Nintendo" data-preco="199.00">
+            <img src="./assets/nintendo.png" alt="Controle de Nintendo (Cor Cinza)">
+            <h3>Controle<br> Nintendo</h3>
+            <p>R$ 199,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto5')">Comprar</button>
+        </div>
+
+        <div id="produto6" class="produto" data-nome="Controle Xbox One" data-preco="199.00">
+            <img src="./assets/controle_xbox_branco.png" alt="Controle de Xbox One (Cor Branca)">
+            <h3>Controle<br> Xbox One</h3>
+            <p>R$ 199,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto6')">Comprar</button>
+        </div>
+
+        <div id="produto7" class="produto" data-nome="Controle Nintendo Switch" data-preco="199.00">
+            <img src="./assets/nintendo_switch_preto.png" alt="Controle de Nintendo Switch (Cor Preta)">
+            <h3>Controle <br>Nintendo Switch</h3>
+            <p>R$ 199,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto7')">Comprar</button>
+        </div>
+
+        <div id="produto8" class="produto" data-nome="Controle Televisão" data-preco="99.00">
+            <img src="./assets/controle_tv1.png" alt="Controle de Televisão">
+            <h3>Controle <br>Televisão</h3>
+            <p>R$ 99,00</p>
+            <button class="botao_compra" onclick="adicionarAoCarrinho('produto8')">Comprar</button>
+        </div>
+
+    </nav>
+
+
+    <!-- div do carrinho e modal de forma de pagamento -->
+    <div id="carrinho" class="escondido">
+        <h2 class="carrinho-titulo">Seus Itens</h2>
+        <ul id="itensCarrinho"></ul>
+        <button class="fechar_carrinho" onclick="fecharCarrinho()">Fechar Carrinho</button>
+        <button class="comprar_carrinho" onclick="comprarCarrinho()">Finalizar Compra</button>
+    </div>
+
+    <div id="modal-pagamento" class="modal escondido">
+        <h2>Selecione a Forma de Pagamento</h2>
+        <div id="opcoesPagamento">
+            <button class="opcao-pagamento" data-opcao="cartao">Cartão de Crédito</button>
+            <button class="opcao-pagamento" data-opcao="pix">PIX</button>
+        </div>
+
+        <div id="cartaoInfoModal" class="escondido">
+            <h2>Forma de Pagamento - Cartão de Crédito</h2>
+            <table>
+                <tr>
+                    <td><label for="nomeTitular">Nome do Titular:</label></td>
+                    <td><input type="text" id="nomeTitular" name="nomeTitular" placeholder="Digite o nome do titular">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numeroCartao">Número do Cartão:</label></td>
+                    <td><input type="text" id="numeroCartao" name="numeroCartao"
+                            placeholder="Digite os dados do cartão"></td>
+                </tr>
+                <tr>
+                    <td><label for="validadeCartao">Validade do Cartão:</label></td>
+                    <td><input type="text" id="validadeCartao" name="validadeCartao" placeholder="mm/aa"></td>
+                </tr>
+                <tr>
+                    <td><label for="codigoSeguranca">Código de Segurança:</label></td>
+                    <td><input type="text" id="codigoSeguranca" name="codigoSeguranca"
+                            placeholder="Digite o cód. de segurança"></td>
+                </tr>
+                <tr>
+                    <td><label for="parcelamento">Parcelamento:</label></td>
+                    <td>
+                        <select id="parcelamento">
+                            <!-- as opções serão implementadas no js -->
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="pixInfoModal" class="escondido">
+            <table>
+                <tr>
+                    <td><label for="nomeCompradorModal">Nome do Comprador:</label></td>
+                    <td><input type="text" id="nomeCompradorModal" name="nomeCompradorModal"
+                            placeholder="Digite seu nome"></td>
+                </tr>
+                <tr>
+                    <td><label for="cpfCompradorModal">CPF do Comprador:</label></td>
+                    <td><input type="text" id="cpfCompradorModal" name="cpfCompradorModal" placeholder="Digite seu CPF">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <button id="confirmarPagamento" class="opcao-pagamento" onclick="confirmarPagamento()">Confirmar
+            Pagamento</button>
+    </div>
+
+    <script src="jquery.js"></script>
+    <script>
+
+
+        var carrinho = []; //abre o vetor para adicionar os produtos no carrinho
+
+
+        //função para adicionar o produto no carrinho com base em seu id
+        function adicionarAoCarrinho(id) { //pega o id do produto a ser adicionado
+            var produto = obterDadosDoProduto(id); //chama a funçao obterdados p buscar no html os produtos c seus respectivos ids
+            carrinho.push(produto); //adiciona o produto no vetor carrinho e armazena
+            exibirCarrinho(); //atualiza o carrinho 
+        }
+
+        //funçao pra obter os dados com base nos ids
+        function obterDadosDoProduto(id) { //abre a funçao p receber os ids
+            var produto = $("#" + id); //usa o jquery p selecionar o produto pelo id no html #id
+            var nome = produto.data("nome"); //usa o jquery p pegar o valor do que foi atribuido no html como data-nome
+            var preco = parseFloat(produto.data("preco")); //mesma coisa que acima mas retornando o preço
+            return { nome: nome, preco: preco }; //retorna um objeto com as propriedades nome e preço representando o produto
+        }
+
+        //aqui exibe o carrinho pelo botao do carrinho
+        function exibirCarrinho() { //exibe o produto adicionado no carrinho
+            var itensCarrinho = $("#itensCarrinho"); //busca os itens que se encontram no vetor do carrinho
+            itensCarrinho.empty(); //nao deixa que na prox vez q for adicionar no carrinho ele adicione o valor total do carrinho em vez de um unico produto
+
+            //percorre o array carrinho, que armazena os produtos selecionados para compra, e cria elementos de lista para cada produto.
+            for (var i = 0; i < carrinho.length; i++) { //inicia um loop que percorre todos produto do array
+                var listItem = $("<li>").text(carrinho[i].nome + " - R$ " + carrinho[i].preco.toFixed(2)); // cria um novo elemento de lista com o nome do produto e o preço
+                listItem.addClass("produto-adicionado"); // adiciona a classe produto-adicionado q tb estiliza os produtos no css
+                itensCarrinho.append(listItem); //adiciona os itens pra exibir no carrinho
+            }
+
+            $("#carrinho").removeClass("escondido"); //remove a classe html "escondido" assim tornando visivel
+        }
+
+        function fecharCarrinho() {
+            $("#carrinho").addClass("escondido"); //adiciona a classe quando clicamos em fechar carrinho
+        }
+
+        function toggleCarrinho() {
+            $("#carrinho").toggleClass("escondido"); //aqui alterna a visibilidade entre visivel e escondido do botao p aparecer o carrinho em cima
+        }
+
+        function comprarCarrinho() {
+            exibirModalPagamento(); //funçao pra chamar o modal de pagamento e selecionar a forma de pagamento qd clicar em comprar
+        }
+
+        //funçao pra exibir o modal de pagamento
+        function exibirModalPagamento() {
+            $("#modal-pagamento").removeClass("escondido"); //remove a classe "escondido" qd eh chamado
+            atualizarCamposModalPagamento(); //chama a funçao pra atualizar antes de aparecer na tela
+        }
+
+        //alterna entre as formas de pagamento
+        function toggleFormaPagamento(opcaoPagamento) {
+            $("#pixInfoModal, #cartaoInfoModal").addClass("escondido"); //seleciona no html os ids "pixinfomodal" e "cartaoinfomodal" e adiciona a classe "escondido"
+
+            if (opcaoPagamento === "pix") { //verifica se eh pix
+                $("#pixInfoModal").removeClass("escondido");//se for remove a classe "escondido"
+            } else if (opcaoPagamento === "cartao") {//se for cartao
+                $("#cartaoInfoModal").removeClass("escondido");//remove a classe do cartao
+            }
+        }
+
+        //funçao pra confirmação de pagamento
+        function confirmarPagamento() {
+            var opcaoPagamentoModal = $("#opcoesPagamento .selecionado").data("opcao"); //seleciona a opçao da classe "selecionado" dentro de "#opcoesPagamento" buscando o valor da data-opcao e armazena
+
+            if (!opcaoPagamentoModal) { //verifica se nenhuma opçao foi selecionada
+                alert("Por favor, selecione uma forma de pagamento.");
+                return;
+            }
+
+            if (opcaoPagamentoModal === "pix") { //verifica se for pix
+                var nomeCompradorModal = $("#nomeCompradorModal").val();//pega o valor do input e poe o id "nomeCompradorModal"
+                var cpfCompradorModal = $("#cpfCompradorModal").val();//mesma coisa mas com o cpf
+
+                if (!nomeCompradorModal || !cpfCompradorModal) { //faz a verificaçao pra ver se nao tem nada em branco
+                    alert("Por favor, preencha todos os campos para PIX.");
+                    return;
+                }
+            }
+
+            alert("Compra realizada! Forma de pagamento: " + opcaoPagamentoModal);//se tudo foi preenchido da o alerta de compra realizada
+            fecharCarrinho(); //fecha o carrinho apos a compra
+            limparCamposPagamentoModal(); //limpa os dados passados pra prosseguir numa futura compra
+        }
+
+        //atualiza os campos e exibe o modal de forma de pagamento
+        function atualizarCamposModalPagamento(opcao) {
+            $("#pixInfoModal, #cartaoInfoModal").addClass("escondido"); //oculta os modais de pagamento (era p acontecer)
+
+            if (opcao === "pix") { //verifica se eh pix pra mostrar os inputs do pix
+                $("#pixInfoModal").removeClass("escondido");
+                $("#cartaoInfoModal").addClass("escondido");
+                $("#parcelamento").prop("disabled", true);
+            } else {// se nao for, mostra os inputs do cartao
+                $("#pixInfoModal").addClass("escondido");
+                $("#cartaoInfoModal").removeClass("escondido");
+                $("#parcelamento").prop("disabled", false);
+
+                // atualiza o valor das opçoes de parcelamento
+                atualizarParcelamento(5); //define 5 como o numero maximo de possibilidade de parcelar
+            }
+        }
+
+        //executa depois do html ser carregado
+        $(document).ready(function () { 
+            $("#opcoesPagamento .opcao-pagamento").click(function () { //adiciona um evento de clique em todos elementos com a classe "opcao-pagamento" dentro do que tenha a id"opcoesPagamento"
+                var opcao = $(this).data("opcao"); //obtem o valor dos dados de "data-opcao" do elemento que for clicado
+                $("#opcoesPagamento .opcao-pagamento").removeClass("selecionado"); //tira a classe "selecionado" de todos elementos q tenham a classe "opcao-pagamento"
+                $(this).addClass("selecionado"); //agr depois de clicado que eh adicionado a classe
+                atualizarCamposModalPagamento(opcao); //ve a opcao que foi selecionada pro modal
+            });
+        });
+
+        //funcao chamada pelo pagamento com cartao
+        function confirmarPagamentoCartao() {
+            //pega as variaveis e armazena em ids
+            var nomeTitular = $("#nomeTitular").val(); 
+            var numeroCartao = $("#numeroCartao").val(); 
+            var validadeCartao = $("#validadeCartao").val();
+            var codigoSeguranca = $("#codigoSeguranca").val();
+            var parcelamentoSelecionado = parseInt($("#parcelamento").val());
+
+            //verifica se tudo esta preenchido, se nao exibe a mensagem
+            if (!nomeTitular || !numeroCartao || !validadeCartao || !codigoSeguranca || isNaN(parcelamentoSelecionado)) {
+                alert("Por favor, preencha todos os campos para pagamento com cartão.");
+                return;
+            }
+
+            // calcula o valor total dos produtos do carrinho somando os preços individualmente (funçao reduce)
+            var precoTotal = carrinho.reduce((total, produto) => total + produto.preco, 0);
+            
+            var valorParcela = 0; //abre a variavel de parcela
+            if (parcelamentoSelecionado <= 3) { //ve se eh menor que 3x
+                
+                valorParcela = precoTotal / parcelamentoSelecionado; // se sim, calcula sem juros
+            } else {
+                // se nao
+                var juros = 0.03; // 3% ao mês
+                valorParcela = (precoTotal * (1 + juros)) / parcelamentoSelecionado; //calcula com os juros
+            }
+            // limpa os campos e fecha o carrinho
+            fecharCarrinho();
+            limparCamposPagamentoModal();
+        }
+
+        // preenche o select com as opçoes de parcela de cada produto
+        $(document).ready(function () {
+            var parcelamentoSelect = $("#parcelamento"); //armazena a variavel no id"parcelamento"
+
+            for (var i = 1; i <= 5; i++) { //inicia a iteraçao de 1 a 5(numeros de parcela)
+                var textoParcela = calcularValorParcela(i); //calcula o valor de cada parcela com base no numero de parcelas
+
+                parcelamentoSelect.append("<option value='" + i + "'>" + i + "x de R$ " + textoParcela + "</option>"); //adiciona a opçao no select do html com o valor igual a "i"(numero de parcelas) e exibe o texto formatado c o valor
+            }
+        });
+
+        //chama novamente a funçao porem dessa vez, pra preencher as opcoes de parcelamento
+        function calcularValorParcela(parcelas) {
+            var precoTotal = carrinho.reduce((total, produto) => total + produto.preco, 0);
+
+            var valorParcela;
+            if (parcelas <= 3) {
+                valorParcela = precoTotal / parcelas;
+                return valorParcela.toFixed(2) + " (sem juros)";
+            } else {
+                var juros = 0.03; 
+                valorParcela = (precoTotal * (1 + juros)) / parcelas;
+                return valorParcela.toFixed(2);
+            }
+        }
+
+        //funçao pra atualizar as opçoes de parcelamento com base no valor total
+        function atualizarParcelamento(parcelas) {
+            var parcelamentoSelect = $("#parcelamento");
+            parcelamentoSelect.empty(); // Limpa as opções existentes
+
+            for (var i = 1; i <= parcelas; i++) {
+                parcelamentoSelect.append("<option value='" + i + "'>" + i + "x de R$ " + calcularValorParcela(i) + "</option>");
+            }
+        }
+
+        //funçao pra fechar o modal apos a compra
+        function limparCamposPagamentoModal() {
+            $("#opcoesPagamento .opcao-pagamento").removeClass("selecionado");
+            $("#nomeCompradorModal, #cpfCompradorModal").val("");
+            $("#modal-pagamento").addClass("escondido");
+            $("#pixInfoModal").addClass("escondido");
+        }
+
+
+            // Aplica o plugin no cpf do pix
+            var mascaraCPF = IMask(cpfCompradorModal, {
+                mask: '000.000.000-00'
+            });
+
+            // Aplica o plugin no número do cartão
+            var mascaraCartao = IMask(numeroCartao, {
+                mask: '0000 0000 0000 0000'
+            });
+
+            // Aplica o plugin na data de validade
+            var mascaraValidade = IMask(validadeCartao, {
+                mask: '00/00'
+            });
+            // Aplica o plugin no cvv
+            var mascaraSegurança = IMask(codigoSeguranca, {
+                mask: '000'
+            });
+    
+
+    </script>
+
+    <footer>
+        Silvio & Leonardo © Todos direitos reservados.
+    </footer>
+</body>
+
+</html>
